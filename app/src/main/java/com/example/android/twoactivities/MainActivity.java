@@ -18,6 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView replyTextView;
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+    if (replyHeadTextView.getVisibility() == View.VISIBLE) {
+        outState.putBoolean("reply_visible", true);
+        outState.putString("reply_text", replyTextView.getText().toString());
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -29,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(LOG_TAG,"......");
         Log.d(LOG_TAG,"onCreate");
+
+        if (savedInstanceState != null) {
+            boolean isVisible = savedInstanceState.getBoolean("reply_visible");
+            if (isVisible) {
+                replyHeadTextView.setVisibility(View.VISIBLE);
+                replyTextView.setText(savedInstanceState.getString("reply_text"));
+                replyTextView.setVisibility(View.VISIBLE);
+            }
+        }
 
     }
 
